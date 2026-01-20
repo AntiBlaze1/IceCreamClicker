@@ -3,7 +3,7 @@ Ice Cream Clicker website for Coding Club
 
 ### Credits:
 
-#### for the game:
+#### For the game:
 Warren Chen  
 Abigail Boshart  
 Harlan Alpern  
