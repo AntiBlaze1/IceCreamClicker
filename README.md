@@ -1,4 +1,4 @@
-# IceCreamClicker
+# Ice Cream Clicker
 Ice Cream Clicker website for Coding Club
 
 ### Credits:
