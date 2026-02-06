@@ -3,6 +3,8 @@ var iceCream=0;
 document.addEventListener("DOMContentLoaded",function () {
     updateIceCreamCounter();
 
+    //Add shop items
+    addShopItems();
 
     //When button clicked
     var clickButton=document.getElementById("clicker");
@@ -34,5 +36,26 @@ function getIceCreamAsWord() {
     var prefix=iceCream.toString().slice(0,2)/10;
     return (numSuffix.get(threeZeroes)!=null)?prefix+" "+numSuffix.get(threeZeroes):iceCream;
 }
+// Name, description, 
+const shopItems= [
+    ["Scoop","test"],
+    ["Scoop","test"],
+    ["Scoop","test"],
+    ["Scoop","test"],
+    ["Scoop","test"],
+    ["Scoop","test"],
+    ["Scoop","test"],
+    ["Scoop","test"],
+    ["Scoop","test"],
+    ["Scoop","test"],
+    ["Scoop","test"],
+]
 
-
+function addShopItems() {
+    for (const item in shopItems) {
+        const button=document.createElement("img");
+        button.src="assets/upgradeBackground.png";
+        button.classList.add("shopItem");
+        document.getElementById("shopList").appendChild(button);
+    }
+}
