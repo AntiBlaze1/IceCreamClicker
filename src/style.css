@@ -1,0 +1,40 @@
+#menuBar {
+    height: 5vh;
+    width: 100%;
+
+    background-color: blue;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+}
+
+#menuBar * {
+    padding: 0 1vw;
+}
+
+#left {
+    width:25%;
+    background-color: red;
+}
+
+#center {
+    width:50%;
+    background-color: green;
+}
+
+#right {
+    width:25%;
+    background-color: orange;
+}
+
+#left, #center, #right {
+    float:left;
+    display:flex;
+    height:95vh;
+    justify-content: center;
+}
+
+body,html {
+    margin:0;
+    padding:0;
+}
