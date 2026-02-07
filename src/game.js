@@ -1,5 +1,6 @@
 var iceCream=0;
 var amountPerClick=1;
+var inventory=new Map();
 
 document.addEventListener("DOMContentLoaded",function () {
     updateIceCreamCounter();
@@ -27,7 +28,7 @@ document.addEventListener("DOMContentLoaded",function () {
 });
 
 function updateIceCreamCounter() {
-    document.getElementById("counter").innerHTML=getIceCreamAsWord();
+    document.getElementById("counter").innerHTML=getNumberAsWord(iceCream);
 }
 
 const numSuffix= new Map();
@@ -38,11 +39,11 @@ numSuffix.set(5,"quadrillion");
 numSuffix.set(6,"quintillion");
 numSuffix.set(7,"sextillion");
 
-function getIceCreamAsWord() {
-    var digits=iceCream.toString().length;
+function getNumberAsWord(number) {
+    var digits=number.toString().length;
     var threeZeroes=Math.floor((digits-1)/3);
-    var prefix=iceCream.toString().slice(0,2)/10;
-    return (numSuffix.get(threeZeroes)!=null)?prefix+" "+numSuffix.get(threeZeroes):iceCream;
+    var prefix=number.toString().slice(0,2)/10;
+    return (numSuffix.get(threeZeroes)!=null)?prefix+" "+numSuffix.get(threeZeroes):number;
 }
 
 
@@ -52,9 +53,16 @@ const shopEffects=Object.freeze({
 
 // Name, description, icon path (relative to assets/shopItems), cost, effects
 const shopItems= [
-    ["Scoop","does stuff ig","scoop.png", 15, [shopEffects.INC_CLICK,1]],
+    ["Scoop", "scoop", "does stuff ig","scoop.png", 10, [shopEffects.INC_CLICK,1]],
 
 ]
+
+const nameIndex=0;
+const idIndex=1
+const descriptionIndex=2;
+const iconIndex=3;
+const priceIndex=4;
+const effectsIndex=5;
 
 function addShopItems() {
     for (let i=0;i<shopItems.length;i++) {
@@ -66,21 +74,26 @@ function addShopItems() {
         button.classList.add("shopItem");
 
         const title=document.createElement("h3");
-        title.appendChild(document.createTextNode(shopItems[i][0]));
+        title.appendChild(document.createTextNode(shopItems[i][nameIndex]));
         title.classList.add("shopItemTitle");
 
         const description=document.createElement("p");
-        description.appendChild(document.createTextNode(shopItems[i][1]));
+        description.appendChild(document.createTextNode(shopItems[i][descriptionIndex]));
         description.classList.add("shopItemDescription");
 
         const icon=document.createElement("img");
-        icon.src="assets/shopItems/"+shopItems[i][2];
+        icon.src="assets/shopItems/"+shopItems[i][iconIndex];
         icon.classList.add("shopItemIcon");
 
         const cost=document.createElement("p");
-        cost.appendChild(document.createTextNode(String(shopItems[i][3])+" $"));
+        cost.appendChild(document.createTextNode(String(shopItems[i][priceIndex])+"$"));
         cost.classList.add("shopItemCost");
 
+        const amount=document.createElement("p");
+        amount.appendChild(document.createTextNode((inventory.get(shopItems[i][idIndex])||0)));
+        amount.classList.add("shopItemAmount");
+
+        container.appendChild(amount);
         container.appendChild(cost);
         container.appendChild(icon);
         container.appendChild(description);
@@ -88,27 +101,40 @@ function addShopItems() {
         container.appendChild(button);
 
         container.onclick=function (e) {
-            if (iceCream<shopItems[i][3]) {
+            if (iceCream<calculateCost(shopItems[i][priceIndex],shopItems[i][idIndex])) {
+                container.style.animation="none";
+                void container.offsetWidth;
+                container.style.animation="wiggle 0.2s";
                 return;
             }
-            iceCream-=shopItems[i][3];
+            iceCream-=calculateCost(shopItems[i][priceIndex],shopItems[i][idIndex]);
             updateIceCreamCounter();
+            container.style.animation="none";
+            void container.offsetWidth;
+            container.style.animation="smallScale 0.2s";
+
+            inventory.set(shopItems[i][idIndex],(inventory.get(shopItems[i][idIndex])||0)+1);
+
+            container.querySelector(".shopItemCost").innerHTML=getNumberAsWord(calculateCost(shopItems[i][priceIndex],shopItems[i][idIndex]))+"$";
+            container.querySelector(".shopItemAmount").innerHTML=inventory.get(shopItems[i][idIndex]);
 
             let currentEffectIndex=0;
             var lookingForEffect=true;
             let effect;
-            while (currentEffectIndex<shopItems[i][4].length) {
+            while (currentEffectIndex<shopItems[i][effectsIndex].length) {
                 if (lookingForEffect===true) {
-                    effect=shopItems[i][4][currentEffectIndex];
+                    effect=shopItems[i][effectsIndex][currentEffectIndex];
                     lookingForEffect=false;
                     currentEffectIndex++;
                 } else {
-                    let effectVar=shopItems[i][4][currentEffectIndex];
+                    let effectVar=shopItems[i][effectsIndex][currentEffectIndex];
                     handleEffect(effect,effectVar);
                     currentEffectIndex++;
                 }
             }
         }
+
+        container.id=shopItems[i][idIndex]+"-itemID";
 
         document.getElementById("shopList").appendChild(container);
     }
@@ -120,4 +146,8 @@ function handleEffect(effect, amount) {
             amountPerClick+=amount;
             break;
     }
+}
+
+function calculateCost(cost, id) {
+    return Math.ceil(cost*Math.pow(1.1,inventory.get(id)||0));
 }
