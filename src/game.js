@@ -50,9 +50,9 @@ const shopEffects=Object.freeze({
     INC_CLICK:0,
 });
 
-// Name, description, icon path (relative to assets/shopItems), effects
+// Name, description, icon path (relative to assets/shopItems), cost, effects
 const shopItems= [
-    ["Scoop","does stuff ig","scoop.png",[shopEffects.INC_CLICK,1]],
+    ["Scoop","does stuff ig","scoop.png", 15, [shopEffects.INC_CLICK,1]],
 
 ]
 
@@ -77,22 +77,33 @@ function addShopItems() {
         icon.src="assets/shopItems/"+shopItems[i][2];
         icon.classList.add("shopItemIcon");
 
+        const cost=document.createElement("p");
+        cost.appendChild(document.createTextNode(String(shopItems[i][3])+" $"));
+        cost.classList.add("shopItemCost");
+
+        container.appendChild(cost);
         container.appendChild(icon);
         container.appendChild(description);
         container.appendChild(title);
         container.appendChild(button);
 
         container.onclick=function (e) {
+            if (iceCream<shopItems[i][3]) {
+                return;
+            }
+            iceCream-=shopItems[i][3];
+            updateIceCreamCounter();
+
             let currentEffectIndex=0;
             var lookingForEffect=true;
             let effect;
-            while (currentEffectIndex<shopItems[i][3].length) {
+            while (currentEffectIndex<shopItems[i][4].length) {
                 if (lookingForEffect===true) {
-                    effect=shopItems[i][3][currentEffectIndex];
+                    effect=shopItems[i][4][currentEffectIndex];
                     lookingForEffect=false;
                     currentEffectIndex++;
                 } else {
-                    let effectVar=shopItems[i][3][currentEffectIndex];
+                    let effectVar=shopItems[i][4][currentEffectIndex];
                     handleEffect(effect,effectVar);
                     currentEffectIndex++;
                 }

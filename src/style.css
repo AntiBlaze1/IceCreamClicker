@@ -143,3 +143,10 @@ img {
     top: 20%;
     left: 5%;
 }
+
+.shopItemCost {
+    position: absolute;
+    font-size: 2cqw;
+    left: 70%;
+    line-height: 0;
+}
