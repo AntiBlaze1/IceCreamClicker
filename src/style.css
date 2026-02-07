@@ -73,13 +73,18 @@ h1 {
     margin: 0;
 }
 
-h3, h5 {
-    font-size: 200%;
+h3 {
+    font-size: 38px;
+    margin: 0;
+}
+
+h2 {
+    font-size: 40px;
     margin: 0;
 }
 
 p {
-    font-size: 150%;
+    font-size: 24px;
 }
 
 img {
@@ -108,4 +113,33 @@ img {
 .shopItem {
     width:23vw;
     margin: 0.5vw;
+}
+
+.shopItemContainer {
+    position: relative;
+}
+
+.shopItemTitle {
+    position: absolute;
+    top: 10%;
+    left: 20%;
+    font-size: 2cqw;
+}
+
+.shopItemDescription {
+    position: absolute;
+    top: 13%;
+    left: 18%;
+    width: 19vw;
+    height: 2.8vh;
+    line-height: 12px;
+    overflow: auto;
+    font-size: 1.3cqw;
+}
+
+.shopItemIcon {
+    position: absolute;
+    width: 11%;
+    top: 20%;
+    left: 5%;
 }

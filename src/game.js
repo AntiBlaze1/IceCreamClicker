@@ -1,4 +1,5 @@
 var iceCream=0;
+var amountPerClick=1;
 
 document.addEventListener("DOMContentLoaded",function () {
     updateIceCreamCounter();
@@ -9,12 +10,19 @@ document.addEventListener("DOMContentLoaded",function () {
     //When button clicked
     var clickButton=document.getElementById("clicker");
     clickButton.onclick=function(e) {
-        iceCream++;
+        iceCream+=amountPerClick;
         updateIceCreamCounter();
         clickButton.style.animation="none";
         void clickButton.offsetWidth;
         clickButton.style.animation="scaleClicker 0.25s";
     }
+
+    //Handle no image found
+    document.addEventListener("error",function (e) {
+        if (e.target.tagName==="IMG") {
+            e.target.src="assets/debug.png";
+        }
+    },true);
 
 });
 
@@ -36,26 +44,69 @@ function getIceCreamAsWord() {
     var prefix=iceCream.toString().slice(0,2)/10;
     return (numSuffix.get(threeZeroes)!=null)?prefix+" "+numSuffix.get(threeZeroes):iceCream;
 }
-// Name, description, 
+
+
+const shopEffects=Object.freeze({
+    INC_CLICK:0,
+});
+
+// Name, description, icon path (relative to assets/shopItems), effects
 const shopItems= [
-    ["Scoop","test"],
-    ["Scoop","test"],
-    ["Scoop","test"],
-    ["Scoop","test"],
-    ["Scoop","test"],
-    ["Scoop","test"],
-    ["Scoop","test"],
-    ["Scoop","test"],
-    ["Scoop","test"],
-    ["Scoop","test"],
-    ["Scoop","test"],
+    ["Scoop","does stuff ig","scoop.png",[shopEffects.INC_CLICK,1]],
+
 ]
 
 function addShopItems() {
-    for (const item in shopItems) {
+    for (let i=0;i<shopItems.length;i++) {
+        const container=document.createElement("div");
+        container.classList.add("shopItemContainer");
+
         const button=document.createElement("img");
         button.src="assets/upgradeBackground.png";
         button.classList.add("shopItem");
-        document.getElementById("shopList").appendChild(button);
+
+        const title=document.createElement("h3");
+        title.appendChild(document.createTextNode(shopItems[i][0]));
+        title.classList.add("shopItemTitle");
+
+        const description=document.createElement("p");
+        description.appendChild(document.createTextNode(shopItems[i][1]));
+        description.classList.add("shopItemDescription");
+
+        const icon=document.createElement("img");
+        icon.src="assets/shopItems/"+shopItems[i][2];
+        icon.classList.add("shopItemIcon");
+
+        container.appendChild(icon);
+        container.appendChild(description);
+        container.appendChild(title);
+        container.appendChild(button);
+
+        container.onclick=function (e) {
+            let currentEffectIndex=0;
+            var lookingForEffect=true;
+            let effect;
+            while (currentEffectIndex<shopItems[i][3].length) {
+                if (lookingForEffect===true) {
+                    effect=shopItems[i][3][currentEffectIndex];
+                    lookingForEffect=false;
+                    currentEffectIndex++;
+                } else {
+                    let effectVar=shopItems[i][3][currentEffectIndex];
+                    handleEffect(effect,effectVar);
+                    currentEffectIndex++;
+                }
+            }
+        }
+
+        document.getElementById("shopList").appendChild(container);
+    }
+}
+
+function handleEffect(effect, amount) {
+    switch(effect) {
+        case shopEffects.INC_CLICK:
+            amountPerClick+=amount;
+            break;
     }
 }
