@@ -1,8 +1,10 @@
 var iceCream=0;
 var amountPerClick=1;
+var amountPerSecond=0;
 var inventory=new Map();
 
 document.addEventListener("DOMContentLoaded",function () {
+    updateGainStats();
     updateIceCreamCounter();
 
     //Add shop items
@@ -31,6 +33,10 @@ function updateIceCreamCounter() {
     document.getElementById("counter").innerHTML=getNumberAsWord(iceCream);
 }
 
+function updateGainStats() {
+    document.getElementById("gainStats").innerHTML="Per Click: "+amountPerClick+"                    Per Second: "+amountPerSecond;
+}
+
 const numSuffix= new Map();
 numSuffix.set(2,"million");
 numSuffix.set(3,"billion");
@@ -49,11 +55,13 @@ function getNumberAsWord(number) {
 
 const shopEffects=Object.freeze({
     INC_CLICK:0,
+    INC_SEC:1,
 });
 
 // Name, description, icon path (relative to assets/shopItems), cost, effects
+// For INC_SEC, make sure the lowest decimal is tenths
 const shopItems= [
-    ["Scoop", "scoop", "does stuff ig","scoop.png", 10, [shopEffects.INC_CLICK,1]],
+    ["Scoop", "scoop", "does stuff ig","scoop.png", 10, [shopEffects.INC_SEC,0.1]],
 
 ]
 
@@ -145,9 +153,13 @@ function handleEffect(effect, amount) {
         case shopEffects.INC_CLICK:
             amountPerClick+=amount;
             break;
+        case shopEffects.INC_SEC:
+            amountPerSecond+=amount;
+            break;
     }
+    updateGainStats();
 }
 
 function calculateCost(cost, id) {
-    return Math.ceil(cost*Math.pow(1.1,inventory.get(id)||0));
+    return Math.ceil(cost*Math.pow(1.1,(inventory.get(id)||0)));
 }

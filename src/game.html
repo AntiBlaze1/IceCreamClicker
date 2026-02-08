@@ -4,6 +4,7 @@
         <link rel="stylesheet" href="style.css">
         <script src="game.js"></script>
         <script src="cheats.js"></script>
+        <script src="updateLoop.js"></script>
     </head>
     <body>
         <div id="menuBar"> <!-- TOP BAR STUFF HERE -->
@@ -26,8 +27,12 @@
 
 
         <div id="center"> <!-- CENTER STUFF HERE -->
-            <h1 id="counter">THIS AMOUNT</h1>
+            <span id="counterHolder">
+                <h1 id="counter">THIS AMOUNT</h1>
+                <p id="gainStats">STATS</p>
+            </span>
             <h3>Ice Cream</h3>
+            
             <br>
             <img src="assets/debug.png" id="clicker">
         </div>

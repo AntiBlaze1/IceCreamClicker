@@ -188,3 +188,30 @@ img {
     75% {transform: rotate(2deg);}
     100% {transform: rotate(-1deg);}
 }
+
+
+
+#counterHolder {
+    position: relative;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+#gainStats{
+    display: none;
+}
+
+
+#counter:hover + #gainStats {
+    display: block;
+    position: absolute;
+    text-align: center;
+    top:40%;
+    background-color: #5c6a70;
+    border: solid;
+    border-color: black;
+    padding: 10px;
+    text-wrap-mode: nowrap;
+    white-space-collapse: preserve;
+}
