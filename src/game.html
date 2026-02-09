@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+    <head>
+        <title>Ice Cream Clicker</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="scollbar.css">
+
+        <script src="game.js"></script>
+        <script src="cheats.js"></script>
+        <script src="updateLoop.js"></script>
+        <script src="shopItems.js"></script>
+
+        <link rel="icon" href="assets/cursor.png">
+    </head>
+    <body>
+        <div id="menuBar"> <!-- TOP BAR STUFF HERE -->
+            <div id="leftMenu">
+                <p>Icon here</p>
+            </div>
+            <h2>ICE CREAM CLICKER</h2>
+            <div id="rightMenu">
+                <p>perhaps settings here</p>
+            </div>
+        </div>
+
+
+
+        <div id="left"> <!-- LEFT STUFF HERE -->
+            <p>test thing</p>
+            <button id="devCheats" onclick="toggleCheats()">cheats</button>
+        </div>
+
+
+
+        <div id="center"> <!-- CENTER STUFF HERE -->
+            <span id="counterHolder">
+                <h1 id="counter">THIS AMOUNT</h1>
+                <p id="gainStats">STATS</p>
+            </span>
+            <h3>Ice Cream</h3>
+            
+            <br>
+            <img src="assets/debug.png" id="clicker">
+        </div>
+
+
+
+        <div id="right"> <!-- RIGHT STUFF HERE -->
+            <h1>SHOP</h1>
+            <div id="shopList">
+
+            </div>
+        </div>
+    </body>
+</html>
