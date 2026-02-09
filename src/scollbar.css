@@ -1,0 +1,33 @@
+::-webkit-scrollbar-thumb {
+    border-radius: 0;
+    background: #91979e;
+
+    background-clip: padding-box;
+    border: 2px solid transparent;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #73787e;
+    border-radius: 0;
+
+    background-clip: padding-box;
+    border: 2px solid transparent;
+}
+
+
+::-webkit-scrollbar-thumb:active {
+    background: #696d73;
+    border-radius: 0;
+
+    background-clip: padding-box;
+    border: 2px solid transparent;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.1);
+}
+
+::-webkit-scrollbar { 
+    border-radius: 0;
+    width: 14px;
+}
