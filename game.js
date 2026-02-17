@@ -7,8 +7,9 @@ document.addEventListener("DOMContentLoaded",function () {
     updateGainStats();
     updateIceCreamCounter();
 
-    //Add shop items
+    //Add shop items and upgrades
     addShopItems();
+    addUpgrades();
 
     //When button clicked
     var clickButton=document.getElementById("clicker");

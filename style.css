@@ -235,3 +235,23 @@ img {
 button {
     cursor: url('assets/cursor.png'),default;
 }
+
+#upgradesList {
+    display: flex;
+    height: 15vh;
+    width: 20vw;
+    overflow-y:auto;
+    flex-wrap: wrap;
+    justify-content: left;
+    column-gap: 8px;
+    align-content: flex-start;
+}
+
+.upgradeContainer {
+    padding: 5px 0;
+    position: relative;
+}
+
+.upgradeImage {
+    width: 40px;
+}
