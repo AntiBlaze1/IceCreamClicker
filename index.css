@@ -1,0 +1,7 @@
+body, html {
+    background-image: url("assets/cloudsBackground.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    image-rendering: pixelated;
+    background-attachment: fixed;
+}
