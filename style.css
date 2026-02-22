@@ -253,5 +253,30 @@ button {
 }
 
 .upgradeImage {
+    width: 32px;
+    top: 4px;
+    left: 4px;
+    position: relative;
+}
+
+.smallUpgradeBackground {
+    position: absolute;
     width: 40px;
+}
+
+.upgradeDescriptionPopup {
+    position: absolute;
+    display: block;
+    top: 80%;
+    left: 20%;
+    background-color: #5c6a70;
+    border: solid;
+    border-color: black;
+    padding: 7px;
+    text-wrap-mode: nowrap;
+    white-space-collapse: preserve;
+}
+
+.upgradeDescriptionText {
+    margin: 0;
 }

@@ -2,8 +2,15 @@ var iceCream=0;
 var amountPerClick=1;
 var amountPerSecond=0;
 var inventory=new Map();
+const urlParams=new URLSearchParams(window.location.search);
+var saveId=urlParams.get("saveid")
+
+var perSecondMult=1;
+var perClickMult=1;
 
 document.addEventListener("DOMContentLoaded",function () {
+    loadSave(saveId);
+
     updateGainStats();
     updateIceCreamCounter();
 
@@ -172,10 +179,14 @@ function calculateCost(cost, id) {
 }
 
 function addIceCream(amount) {
-    iceCream+=amount;
+    iceCream+=Math.round(amount*perClickMult);
     checkIceCreamUpgradeRequirement();
 }
 
 function addICPS(amount) { //Ice Cream Per Second
     amountPerSecond+=amount;
+}
+
+function loadSave(id) {
+    
 }

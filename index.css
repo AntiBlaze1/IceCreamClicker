@@ -4,4 +4,77 @@ body, html {
     background-size: 100%;
     image-rendering: pixelated;
     background-attachment: fixed;
+    overflow: hidden;
+}
+
+#truckContainer {
+    right:50%;
+    transform: translate(200vw);
+    animation: moveTruck 2s forwards;
+    animation-timing-function: ease-out;
+}
+
+#truck {
+    position: relative;
+    width: 1000px;
+    top: 200px;
+}
+
+@keyframes moveTruck {
+    0% {
+        transform: translate(100vw,10vh);
+    }
+    100% {
+        transform: translate(25vw,10vh);
+    }
+}
+
+#dust {
+    position: relative;
+    width: 200px;
+    top: -230px;
+    right: 300px;
+    animation: hideDust 2s forwards;
+}
+
+@keyframes hideDust {
+    99% {transform: translate(0%,0%);}
+    100% {transform: translate(0%,3000vh);}
+}
+
+#saveSelection {
+    position: relative;
+    top: -260px;
+    right: 760px;
+}
+
+@font-face {
+    font-family: aseprite;
+    src: url(assets/AsepriteFont.ttf);
+}
+
+#saveIdText {
+    position: relative;
+    top: -260px;
+    right: 760px;
+    font-family: aseprite;
+    font-size: 28px;
+}
+
+#title {
+    position: absolute;
+    font-family:aseprite;
+    font-size: 84px;
+    left: 50%;
+    transform: translate(-50%);
+    animation: titleDrop 0.3s forwards;
+    animation-delay: 1.7s;
+    animation-timing-function: ease-out;
+}
+
+@keyframes titleDrop {
+    0% {transform: translate(-50%);}
+    60% {transform: translate(-50%,10vh);}
+    85% {transform: translate(-50%,9vh);}
+    100% {transform: translate(-50%,10vh);}
 }
