@@ -12,14 +12,15 @@ var updateTen=0;
 function updateIceCreamPerSecond() {
     amountPerSecond=Math.round(amountPerSecond*10)/10;
     updateGainStats();
-    let intAmountPerSecond=Math.floor(amountPerSecond);
-    iceCream+=intAmountPerSecond;
+    let multAmountPerSecond=amountPerSecond*perSecondMult;
+    let intAmountPerSecond=Math.floor(multAmountPerSecond);
+    addIceCream(intAmountPerSecond);
 
     updateTen++;
     if (updateTen==10) {
         updateTen=0;
-        let decimalPart=amountPerSecond-intAmountPerSecond;
-        iceCream+=decimalPart*10;
+        let decimalPart=multAmountPerSecond-intAmountPerSecond;
+        addIceCream(decimalPart*10);
     }
 
     updateIceCreamCounter();

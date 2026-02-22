@@ -2,18 +2,25 @@ var iceCream=0;
 var amountPerClick=1;
 var amountPerSecond=0;
 var inventory=new Map();
+const urlParams=new URLSearchParams(window.location.search);
+var saveId=urlParams.get("saveid")
+
+var perSecondMult=1;
+var perClickMult=1;
 
 document.addEventListener("DOMContentLoaded",function () {
+    loadSave(saveId);
+
     updateGainStats();
     updateIceCreamCounter();
 
-    //Add shop items
+    //Add shop items and upgrades
     addShopItems();
 
     //When button clicked
     var clickButton=document.getElementById("clicker");
     clickButton.onclick=function(e) {
-        iceCream+=amountPerClick;
+        addIceCream(amountPerClick);
         updateIceCreamCounter();
         clickButton.style.animation="none";
         void clickButton.offsetWidth;
@@ -44,12 +51,25 @@ numSuffix.set(4,"trillion");
 numSuffix.set(5,"quadrillion");
 numSuffix.set(6,"quintillion");
 numSuffix.set(7,"sextillion");
+numSuffix.set(8,"septillion");
+numSuffix.set(9,"octillion");
+numSuffix.set(10,"nonillion");
+numSuffix.set(11,"decillion");
+numSuffix.set(12,"undecillion");
+numSuffix.set(12,"duodecillion");
+numSuffix.set(14,"tredecillion");
+numSuffix.set(15,"quattuordecillion");
+numSuffix.set(16,"quindecillion");
+numSuffix.set(17,"sexdecillion");
+numSuffix.set(18,"septendecillion");
+numSuffix.set(19,"octodecillion");
 
 function getNumberAsWord(number) {
     var digits=number.toString().length;
     var threeZeroes=Math.floor((digits-1)/3);
-    var prefix=number.toString().slice(0,2)/10;
-    return (numSuffix.get(threeZeroes)!=null)?prefix+" "+numSuffix.get(threeZeroes):number;
+    let suffix=numSuffix.get(threeZeroes)
+    var prefix=number.toString().slice(0,(digits-3*threeZeroes)+1)/10;
+    return (suffix!=null)?prefix+" "+suffix:number;
 }
 
 
@@ -156,4 +176,17 @@ function handleEffect(effect, amount) {
 
 function calculateCost(cost, id) {
     return Math.ceil(cost*Math.pow(1.1,(inventory.get(id)||0)));
+}
+
+function addIceCream(amount) {
+    iceCream+=Math.round(amount*perClickMult);
+    checkIceCreamUpgradeRequirement();
+}
+
+function addICPS(amount) { //Ice Cream Per Second
+    amountPerSecond+=amount;
+}
+
+function loadSave(id) {
+    
 }
