@@ -30,6 +30,19 @@ function toggleCheats() {
         shopItemAmount.onclick=function (e) {
             let id=prompt("What ID?");
             let amount=parseInt(prompt("How much?"),10);
+            if (!id||!amount) {
+                return;
+            }
+
+            let valid=false;
+            for (let i=0;i<shopItems.length;i++) {
+                if (shopItems[i][1]==id) {
+                    valid=true;
+                }
+            }
+            if (!valid) {
+                return;
+            }
             inventory.set(id,(inventory.get(id)||0)+amount);
             let baseCost=0;
             let shopArrayIndex=0;
