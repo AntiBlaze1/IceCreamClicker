@@ -105,6 +105,12 @@ p {
 
 img {
     image-rendering: pixelated;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    
 }
 
 #clicker {
@@ -147,7 +153,7 @@ img {
     position: absolute;
     top: 13%;
     left: 18%;
-    width: 19vw;
+    width: 12.5vw;
     height: 2.8vh;
     line-height: 12px;
     overflow: auto;

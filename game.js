@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded",function () {
         }
     },true);
 
+
 });
 
 function updateIceCreamCounter() {
@@ -41,7 +42,7 @@ function updateIceCreamCounter() {
 }
 
 function updateGainStats() {
-    document.getElementById("gainStats").innerHTML="Per Click: "+amountPerClick+"                    Per Second: "+amountPerSecond;
+    document.getElementById("gainStats").innerHTML="Per Click: "+amountPerClick*perClickMult+"                    Per Second: "+amountPerSecond*perSecondMult;
 }
 
 const numSuffix= new Map();
@@ -108,7 +109,7 @@ function addShopItems() {
         icon.classList.add("shopItemIcon");
 
         const cost=document.createElement("p");
-        cost.appendChild(document.createTextNode(String(shopItems[i][priceIndex])+"$"));
+        cost.appendChild(document.createTextNode(getNumberAsWord(calculateCost(shopItems[i][priceIndex],shopItems[i][idIndex]))+"$"));
         cost.classList.add("shopItemCost");
 
         const amount=document.createElement("p");
@@ -140,20 +141,7 @@ function addShopItems() {
             container.querySelector(".shopItemCost").innerHTML=getNumberAsWord(calculateCost(shopItems[i][priceIndex],shopItems[i][idIndex]))+"$";
             container.querySelector(".shopItemAmount").innerHTML=inventory.get(shopItems[i][idIndex]);
 
-            let currentEffectIndex=0;
-            var lookingForEffect=true;
-            let effect;
-            while (currentEffectIndex<shopItems[i][effectsIndex].length) {
-                if (lookingForEffect===true) {
-                    effect=shopItems[i][effectsIndex][currentEffectIndex];
-                    lookingForEffect=false;
-                    currentEffectIndex++;
-                } else {
-                    let effectVar=shopItems[i][effectsIndex][currentEffectIndex];
-                    handleEffect(effect,effectVar);
-                    currentEffectIndex++;
-                }
-            }
+            handleEffect(shopItems[i][effectsIndex][0],shopItems[i][effectsIndex][1]);
         }
 
         container.id=shopItems[i][idIndex]+"-itemID";
@@ -181,12 +169,98 @@ function calculateCost(cost, id) {
 function addIceCream(amount) {
     iceCream+=Math.round(amount*perClickMult);
     checkIceCreamUpgradeRequirement();
+    updateIceCreamCounter();
+}
+
+function setIceCream(amount) {
+    iceCream=Math.round(amount*perClickMult);
+    checkIceCreamUpgradeRequirement();
+    updateIceCreamCounter();
 }
 
 function addICPS(amount) { //Ice Cream Per Second
     amountPerSecond+=amount;
 }
 
+function save(id) {
+    document.cookie=id+"_iceCream="+iceCream+";";
+
+    document.cookie=id+"_shopInventory="+JSON.stringify(Array.from(inventory.entries()))+";";
+
+    // document.cookie=id+"_shopInventory="+JSON.stringify(Array.from(inventory.entries()))+"; expires=Thu, 01 Jan 1970 00:00:01 GMT";
+
+    document.cookie=id+"_upgradeInventory="+JSON.stringify(upgradeInventory)+";";
+
+    document.cookie=id+"_saveExists=true;"
+}
+
 function loadSave(id) {
-    
+    console.log("Loading save "+saveId);
+    let cookie=document.cookie.split("; ");
+
+    if (false) { //log save on load
+        console.log(cookie);
+    }
+
+    let cookieMap=new Map();
+
+    for (const thing of cookie) {
+        let key=thing.split("=")[0];
+        let val=thing.split("=")[1];
+        cookieMap.set(key,val);
+    }
+
+    if (cookieMap.get(id+"_saveExists")) {
+
+        for (const shopItem of JSON.parse(cookieMap.get(id+"_shopInventory"))) {
+            inventory.set(shopItem[0],shopItem[1]);
+
+            let loadItemPrice=0;
+            let effect;
+
+            for (const item of shopItems) {
+                if (item[idIndex]==shopItem[0]) {
+                    loadItemPrice=item[priceIndex];
+                    effect=item[effectsIndex]
+                }
+            }
+
+            if (loadItemPrice==0) {
+                continue;
+            }
+
+            if (document.getElementById(shopItem[0]+"-itemID")) {
+                document.getElementById(shopItem[0]+"-itemID").querySelector(".shopItemCost").innerHTML=getNumberAsWord(calculateCost(loadItemPrice,shopItem[0]))+"$";
+            }
+
+            for (let i=0;i<shopItem[1];i++) {
+                
+                handleEffect(effect[0],effect[1]);
+            }
+        }
+
+        for (const upgrade of JSON.parse(cookieMap.get(id+"_upgradeInventory"))) {
+            upgradeInventory.push(upgrade);
+            handleUpgradeEffect(upgradeItems.get(upgrade)[4]);
+        }
+        setIceCream(cookieMap.get(id+"_iceCream"));
+    }
+}
+
+
+function deleteSave(id) {
+    document.cookie=id+"_iceCream=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+
+    document.cookie=id+"_shopInventory=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+
+    document.cookie=id+"_upgradeInventory=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+
+    document.cookie=id+"_saveExists=; expires=Thu, 01 Jan 1970 00:00:01 GMT;"
+}
+
+window.onbeforeunload=function (e) {
+    save(saveId);
+
+    e.preventDefault();
+    e.returnValue='';
 }

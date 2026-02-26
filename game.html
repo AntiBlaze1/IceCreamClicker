@@ -15,10 +15,11 @@
     <body>
         <div id="menuBar"> <!-- TOP BAR STUFF HERE -->
             <div id="leftMenu">
-                <p>Icon here</p>
+                <img src="assets/cursor.png">
             </div>
             <h2>ICE CREAM CLICKER</h2>
             <div id="rightMenu">
+                <p>Beta 1.0</p>
                 <p>perhaps settings here</p>
             </div>
         </div>
@@ -27,7 +28,11 @@
 
         <div id="left"> <!-- LEFT STUFF HERE -->
             <p>test thing</p>
-            <button id="devCheats" onclick="toggleCheats()">cheats</button>
+            <button id="devCheats" onclick="toggleCheats()">Dev Cheats</button>
+            <button id="saveButton" onclick="save(saveId)">Save</button>
+            <button id="loadButton" onclick="loadSave(saveId)">Load</button>
+            <button id="deleteSave" onclick="deleteSave(saveId)">Delete Save</button>
+            <button id="creditsButton" onclick="alert('Warren, Harlan, Abigail')">Credits</button>
         </div>
 
 
@@ -40,7 +45,7 @@
             <h3>Ice Cream</h3>
             
             <br>
-            <img src="assets/clicker.png" id="clicker">
+            <img src="assets/clicker.png" id="clicker" draggable="false">
         </div>
 
 
