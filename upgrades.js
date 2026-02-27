@@ -6,15 +6,21 @@ const upgradeEffects=Object.freeze({
 });
 
 upgradeItems.set("sprinkles",
-    ["Sprinkles","sprinkles.png",10,"Doubles the amount that you get per second."]
-)
+    ["Sprinkles","sprinkles.png",10,"Increases ICPS multiplier by 1",[upgradeEffects.INC_SEC_MULT,1]]
+);
 
-let nextIceCreamUpgradeIndex=0;
+upgradeItems.set("cherry",
+    ["Cherry","cherry.png",10,"Increases click multiplier by 1",[upgradeEffects.INC_CLICK_MULT,1]]
+);
+
+var nextIceCreamUpgradeIndex=0;
 // Unlock price, id
 const iceCreamUpgradeRequirements=[
     [5,"sprinkles"],
-
+    [7,"cherry"]
 ]
+
+var upgradeInventory=[];
 
 function checkIceCreamUpgradeRequirement() {
     if (nextIceCreamUpgradeIndex==-1) {
@@ -32,6 +38,9 @@ function checkIceCreamUpgradeRequirement() {
 }
 
 function addUpgrade(id) {
+    if (upgradeInventory.includes(id)) {
+        return;
+    }
 
     const upgradeContainer=document.createElement("div");
     upgradeContainer.classList.add("upgradeContainer");
@@ -44,13 +53,18 @@ function addUpgrade(id) {
     const image=document.createElement("img");
     image.src="assets/upgrades/"+upgradeItems.get(id)[1];
     image.classList.add("upgradeImage");
-    image.onclick=function (e) {
+    upgradeContainer.onclick=function (e) {
         let price=upgradeItems.get(id)[2];
         if (price>iceCream) {
             upgradeContainer.style.animation="none";
             void upgradeContainer.offsetWidth;
             upgradeContainer.style.animation="wiggle 0.2s";
             return;
+        } else {
+            iceCream-=price;
+            handleUpgradeEffect(upgradeItems.get(id)[4]);
+            upgradeInventory.push(id);
+            upgradeContainer.remove();
         }
     }
 
@@ -81,4 +95,15 @@ function addUpgrade(id) {
     document.getElementById("upgradesList").appendChild(upgradeContainer);
 
     
+}
+
+function handleUpgradeEffect(effect) {
+    switch (effect[0]) {
+        case upgradeEffects.INC_CLICK_MULT:
+            perClickMult+=effect[1];
+            break;
+        case upgradeEffects.INC_SEC_MULT:
+            perSecondMult+=effect[1];
+            break;
+    }
 }
