@@ -173,7 +173,7 @@ function addIceCream(amount) {
 }
 
 function setIceCream(amount) {
-    iceCream=Math.round(amount*perClickMult);
+    iceCream=Math.round(amount);
     checkIceCreamUpgradeRequirement();
     updateIceCreamCounter();
 }
@@ -256,6 +256,8 @@ function deleteSave(id) {
     document.cookie=id+"_upgradeInventory=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
 
     document.cookie=id+"_saveExists=; expires=Thu, 01 Jan 1970 00:00:01 GMT;"
+
+    loadSave(id);
 }
 
 window.onbeforeunload=function (e) {
