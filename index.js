@@ -3,4 +3,6 @@ document.addEventListener("DOMContentLoaded", function () {
         let saveFile=document.getElementById("saveSelection").value;
         window.location.href="game.html"+"?saveid="+saveFile;
     };
+    var audio = new Audio('introMusic.wav');
+audio.play();
 })
