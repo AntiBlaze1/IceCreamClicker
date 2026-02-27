@@ -11,3 +11,5 @@ Harlan Alpern
 #### Aseprite Font:
 DaCap  
 TTF Version: HaloFlooder
+
+# PLEASE LOOK AT WARREN-ASSETS for the latest changes (not guranteed to be stable)
