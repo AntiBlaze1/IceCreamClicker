@@ -4,9 +4,9 @@ var amountPerSecond=0;
 var inventory=new Map();
 const urlParams=new URLSearchParams(window.location.search);
 var saveId=urlParams.get("saveid")
-var audio = new Audio('inromusic.wav');
+var audio = new Audio('introMusic.wav');
 audio.play();
-var audio = new Audio('project.wav');
+var audio = new Audio('Project.wav');
 audio.play();
 
 var perSecondMult=1;
